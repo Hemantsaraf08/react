@@ -1,0 +1,28 @@
+Variation of useEffect:
+
+NOTE THAT ALL useEffect variations must atleast run once during Mounting (but we may choose to not provide any executable statement before return of useEffect's cb function)
+
+1. Combination of ComponentDidMount & ComponentDidUpdate ==> runs for each update (completion of re-render) of all state variables and also runs after mounting.
+
+Syntax: useEffect(cb_func); //no dependency array
+
+(avoid state changes here as you may end up in infinite loop)
+
+2. Only ComponentDidMount ==> Runs only once in the lifetime of the component after rendering
+
+Syntax: useEffect((cb_func), []); //empty dependency array
+
+3. Combination of ComponentDidMount & ComponentWillUnmount ==> Runs only when the component is Mounted and before the Unmounting of comp.
+
+Syntax: useEffect((cb_func WITH RETURN FUNCTION), []) 
+//has a function returned from useEffect that will be executed when the comp. unmounts whereas the body of the callback function passed to useEffect will the executed after the comp. mounts
+//also note that an Empty dependency array is passed to make it run just once
+
+4. useEffect for cleanUp / unsubscription: (ComponentDidMount & ComponentDidUpdate combination)
+this variation of useEffect runs after every re-render when the state variables are updated (and obviously after mounting). However the distinction of the function returned from the cb function of useEffect is that it will run just before the next useEffect will be called. This feature can be used to remove setTimeout, eventlisteners, subscribtion or cleanup.
+
+Syntax: useEffect(cb function with return function) //no dependency array
+
+5. useEffect that runs for specific state variable update: sometimes we have want to run useEffect only for the update of particular state variable and not for all state variable, this can be acheived by passing those statevariables as dependency array to useEffect
+
+Syntax: useEffect((cb function), [specific state variables or variable array]) //dependency array with specific state variable items

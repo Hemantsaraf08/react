@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Counter</title>
+</head>
+<body>
+    <div class="hanger">
+
+    </div>
+    <script type="text/babel">
+    //making counter app
+        //step1: making static website first
+
+        class Counter extends React.Component{
+            //making obj here is not our responsibility, js/browser will handle it
+            constructor(props){
+                //super is needed as we use inheritence
+                super(props);
+                //state is a React defined object that contains info of all variables as key:value pair; whose values change
+                //dynamically 
+                this.state={
+                    count:0
+                }
+            }
+            increment=()=>{
+                //to change state React has given us inbuilt function this.setState() which takes as input an object
+                //we modify state variable and give it as a value of the key of state object
+                //setState does 2 things 1. change the state of state variable in state obj 2. call render function so that 
+                //UI is re-rendered
+                this.setState({count:this.state.count+1});
+
+                //if we do the below to set State we only change the state in state obj but not in UI
+                //this.state.count=this.state.count+1;
+            }
+            decrement=()=>{
+                this.setState({count:this.state.count-1});
+            }
+            render(){
+                return(
+                    //only JSX code
+                    //as no. of returned HTML/JSX element in more than 1 use wrapper div or reactFragment
+                    <React.Fragment>
+                    <h2>{this.state.count}</h2>
+                    <button onClick={this.increment}>+</button>
+                    <br/>
+                    <button onClick={this.decrement}>-</button>
+                    </React.Fragment>
+                )
+            }
+        }
+        // function Counters(){
+        //     return(
+        //         <React.Fragment>
+        //         <Counter/>
+        //         <Counter/>
+        //         </React.Fragment>
+        //     )
+        // } 
+
+        //OR
+
+        class Counters extends React.Component{
+            //if there are any props sent we can catch it here
+            constructor(props){
+                //pass props in super also if props exists
+                super(props)
+            }
+
+            render(){
+                return(
+                    <React.Fragment>
+                        <Counter/>
+                        <Counter/>
+                    </React.Fragment>
+                )
+            }
+        }
+
+        ReactDOM.render(<Counters></Counters>, document.querySelector(".hanger"));
+    </script>
+</body>
+</html>

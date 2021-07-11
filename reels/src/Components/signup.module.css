@@ -1,0 +1,18 @@
+.signupcomp{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("./signup_bg.png");
+    background-size: cover;
+}
+.appname{
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    position: fixed;
+    left: auto;
+    top: 20vh;
+    /* font-style: inherit; */
+}

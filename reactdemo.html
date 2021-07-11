@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>React HelloWorld</title>
+</head>
+<body>
+    <div id="append-on-this"></div>
+    <script type="text/babel">
+        //creating functional components
+        //passing parameter to functional component must be by name props, props are 
+        //react objects with key:value pair
+        // function Hello(props){
+        //     return(
+        //         <div>
+        //             <h1>Hello {props.name} I'learning React</h1>
+        //             <p> Lets get started </p>
+        //         </div>         
+        //     )
+        // }
+        //we are wraping the above in div as we can't return multiple HTML element from Functional Component
+        //if we want to make the div invisible we can use React.Fragment
+        //Example below:
+        // function Hello(){
+        //     return(
+        //         <React.Fragment>
+        //             <h1>Hello I'm learning React</h1>
+        //             <p> Lets get started </p>
+        //         </React.Fragment>         
+        //     )
+        // }
+        //calling above sub component multiple times, using below
+
+        //PASSING PARAMETERS NOW TO FUNCTIONAL COMPONENTS
+
+        function Hello({person:allias="Anonymous", age:a="0"}){
+            return(
+                <div>
+                    <h1>Hello {allias} I'm learning React</h1>
+                    <p>lets get started, your React age is {a}</p>
+                </div>  
+            )
+        }
+        function Hellos(){
+            return(
+                <div>
+                    <Hello person="ABC" age="2"/>
+                    <Hello person="ght"/>
+                    <Hello/>
+                    <Hello/>
+                </div>
+            )
+        }
+
+        //rendering use ReactDOM script loaded above
+        //2 parameter 1. functional component 2. HTML element to append this component on
+        ReactDOM.render(<Hellos></Hellos>, document.querySelector("#append-on-this"))
+    </script>
+</body>
+</html>
