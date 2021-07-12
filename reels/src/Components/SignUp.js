@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import AuthProvider, { AuthContext } from '../Context/AuthProvider'
+import { AuthContext } from '../Context/AuthProvider'
 import styles from "./signup.module.css"
 import { storage, database } from '../firebase';
 function SignUp() {
@@ -41,7 +41,7 @@ function SignUp() {
                 setLoading(false)
             }
             async function fn3() {
-                let downloadUrl = await uploadTaskListener.snapshot.ref.getDownloadURL();
+                let downloadUrl = await uploadTaskListener.snapshot.ref.getDownloadURL();//snapshot means any file audio, video, image==> given by firebase
                 console.log(downloadUrl);
                 await database.users.doc(uid).set({
                     email: Email,
