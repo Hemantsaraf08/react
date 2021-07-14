@@ -10,18 +10,63 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import { AuthContext } from '../Context/AuthProvider';
 import { Link } from '@material-ui/core';
+import bpic from "./signIN_bg.png"
+import styles from "./signIN.module.css"
+import { mergeClasses } from '@material-ui/styles';
+
 // import {Link} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '25ch'
+    formBlock: {
+        marginTop: "1.5rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "space-evenly",
+        // padding: "5px",
+        "& *":{
+            // textAlign: "center",
+            margin: ".15rem"
+        }
     },
+    // root>*{ //see how to select children above
+    //     margin:"5px"
+    // }
+    SignINcomp:{
+        
+    },
+    signINcard:{
+        backgroundColor: "white",
+        width: "20rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "26rem"
+    },
+    message:{
+        width: "100%",
+        height: "15px",
+        borderBottom: "1px solid black",
+        textAlign:"center"
+    },
+    messageBody: {
+        fontSize: "20px",
+        backgroundColor: "white",
+        padding: "5px",
+        fontStyle:"sans-serif cursive"
+    },
+    ForgotPassword:{
+        textAlign: "center",
+        margin: "5px"
+    },
+
 }));
 
 
 function SignIN() {
     const {login}=useContext(AuthContext)
     const [email, setEmail] = useState("");
-    const [loading, setLoading]=useState("false")
+    const [loading, setLoading]=useState(false)
     const [error, setError]=useState("")
     const [passwordObj, setPasswordObj] = useState({
         password: "",
@@ -54,14 +99,28 @@ function SignIN() {
         }
     }
     return (
-        <div>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSignIn}>
+        <div clasName={classes.SignINcomp}  
+            style={{backgroundImage:`url(${bpic})`,
+            Height:"100vh",
+             Width: "100%",
+            backgroundSize:"cover",
+            backgroundAttachment: "fixed",
+            }}>
+            {error?<h1>{error}</h1>:<div className={classes.signINcard}>
+                <div className={styles.appName}>RollingStones</div>
+                <div className={classes.message}>
+                    <span className={classes.messageBody}>Sign in</span>
+                </div>
+            <form className={classes.formBlock} noValidate autoComplete="off" onSubmit={handleSignIn}>
+                
                 <TextField id="outlined-basic"
                     type="email"
-                    placeholder="Enter Email" variant="outlined" required autoFocus
+                    placeholder="Enter Email"
+                    variant="outlined" required autoFocus
                     onChange={(e)=>setEmail(e.target.value)}
                     value={email}
-                />
+                    />
+     
                 <OutlinedInput
                     id="outlined-adornment-password"
                     type={passwordObj.showPassword ? 'text' : 'password'}
@@ -74,19 +133,22 @@ function SignIN() {
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}
                                 edge="end"
-                            >
+                                >
                                 {passwordObj.showPassword ? <Visibility /> : <VisibilityOff />}
                             </IconButton>
                         </InputAdornment>
                     }
                     placeholder="Password"
                     variant="outlined" required
-                />
-                <Link>Forgot Password?</Link>
+                    />
+                <Link className={classes.ForgotPassword}>Forgot Password?</Link>
                 <Button variant="contained" color="primary" type="submit" disabled={loading}>
                     LOG IN
                 </Button>
             </form>
+            <p>Don't have an account? <Link>Sign up</Link></p>
+            </div>
+        }
         </div>
     )
 }
