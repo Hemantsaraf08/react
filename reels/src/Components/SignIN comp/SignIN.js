@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react'
+import { AuthContext } from '../../Context/AuthProvider';
+import styles from "./signIN.module.css"
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormControl, Input, InputAdornment } from '@material-ui/core';
@@ -8,11 +10,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
-import { AuthContext } from '../Context/AuthProvider';
 import { Link } from '@material-ui/core';
 import bpic from "./signIN_bg.png"
-import styles from "./signIN.module.css"
-import { mergeClasses } from '@material-ui/styles';
 
 // import {Link} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -32,34 +31,47 @@ const useStyles = makeStyles((theme) => ({
     //     margin:"5px"
     // }
     SignINcomp:{
-        
-    },
-    signINcard:{
-        backgroundColor: "white",
-        width: "20rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "26rem"
+        backgroundSize: "100% 100%",
+        height: "100vh",
     },
-    message:{
+    signINcard:{
+        backgroundColor: "white",
+        width: "21rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "32rem",
+        boxShadow: "5px 10px 30px 10px darkslategrey",
+        borderRadius: "13px"
+    },
+    messageLogin:{
         width: "100%",
         height: "15px",
         borderBottom: "1px solid black",
-        textAlign:"center"
+        textAlign:"center",
+        opacity: "0.3"
     },
     messageBody: {
         fontSize: "20px",
         backgroundColor: "white",
         padding: "5px",
-        fontStyle:"sans-serif cursive"
+        fontStyle:"sans-serif cursive",
     },
     ForgotPassword:{
         textAlign: "center",
-        margin: "5px"
+        margin: "5px",
+        marginBottom: "10px"
     },
-
+    message:{
+        fontSize: "18px",
+        fontStyle: "italic",
+        
+    }
 }));
 
 
@@ -99,17 +111,14 @@ function SignIN() {
         }
     }
     return (
-        <div clasName={classes.SignINcomp}  
+        <div className={classes.SignINcomp}  
             style={{backgroundImage:`url(${bpic})`,
-            Height:"100vh",
-             Width: "100%",
-            backgroundSize:"cover",
-            backgroundAttachment: "fixed",
             }}>
             {error?<h1>{error}</h1>:<div className={classes.signINcard}>
                 <div className={styles.appName}>RollingStones</div>
-                <div className={classes.message}>
-                    <span className={classes.messageBody}>Sign in</span>
+                <p className={classes.message}>A place to share your travel memories</p>
+                <div className={classes.messageLogin}>
+                    <span className={classes.messageBody}>Log in</span>
                 </div>
             <form className={classes.formBlock} noValidate autoComplete="off" onSubmit={handleSignIn}>
                 
