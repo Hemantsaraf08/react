@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../Context/AuthProvider';
 import styles from "./signIN.module.css"
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import { Link } from '@material-ui/core';
 import bpic from "./signIN_bg.png"
-
+import { useHistory } from 'react-router-dom';
 // import {Link} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     formBlock: {
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SignIN() {
-    const {login}=useContext(AuthContext)
+    const {login, currentUser}=useContext(AuthContext)
     const [email, setEmail] = useState("");
     const [loading, setLoading]=useState(false)
     const [error, setError]=useState("")
@@ -85,7 +85,7 @@ function SignIN() {
         showPassword: false
     })
     const classes = useStyles();
-    
+    const history=useHistory()
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
@@ -99,10 +99,9 @@ function SignIN() {
         e.preventDefault();
         try{
             setLoading(true);
-            let res= await login(email,passwordObj.password);
-            let uid = res.user.uid;
-            console.log(uid);
+            await login(email,passwordObj.password);
             setLoading(false);
+            history.push("./")
             console.log('User has Signed IN');
         }catch(error){
             setError(e)
@@ -110,6 +109,12 @@ function SignIN() {
             setLoading(false)
         }
     }
+    useEffect(()=>{
+        if(currentUser)
+        {
+          history.push('/')
+        }
+      },[])
     return (
         <div className={classes.SignINcomp}  
             style={{backgroundImage:`url(${bpic})`,

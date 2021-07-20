@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { storage, database } from '../../firebase';
-import { AuthContext} from "../../Context/AuthProvider"
+import { AuthContext } from "../../Context/AuthProvider"
 import styles from "./signup.module.css"
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -13,24 +13,27 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import { Link } from '@material-ui/core';
 import bpic from "./signup_bg.png"
-
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     formBlock: {
-        marginTop: "1.5rem",
+        marginTop: "1rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",
         justifyContent: "space-evenly",
         // padding: "5px",
-        "& *":{
+        "& *": {
             // textAlign: "center",
-            margin: ".15rem"
+            margin: ".2rem"
         }
     },
     // root>*{ //see how to select children above
     //     margin:"5px"
     // }
-    SignUpcomp:{
+    SignUpcomp: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -38,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: "100% 100%",
         height: "100vh",
     },
-    signUpcard:{
+    signUpcard: {
         backgroundColor: "white",
         width: "21rem",
         display: "flex",
@@ -47,33 +50,42 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         height: "32rem",
         boxShadow: "5px 10px 30px 10px darkslategrey",
-        borderRadius: "13px"
+        borderRadius: "13px",
+        paddingBottom: "1rem",
+        paddingTop: "1rem",
     },
-    messageLogin:{
+    messageLogin: {
         width: "100%",
         height: "15px",
         borderBottom: "1px solid black",
-        textAlign:"center",
+        textAlign: "center",
         opacity: "0.3"
     },
     messageBody: {
         fontSize: "20px",
         backgroundColor: "white",
         padding: "5px",
-        fontStyle:"sans-serif cursive",
+        fontStyle: "sans-serif cursive",
     },
-    ForgotPassword:{
+    ForgotPassword: {
         textAlign: "center",
         margin: "5px",
         marginBottom: "10px"
     },
-    message:{
+    message: {
         fontSize: "18px",
         fontStyle: "italic",
-        
-    }
+        marginTop: "0rem"
+    },
+    uploadButton:{
+        boxShadow: 'none',
+        border: "solid",
+        borderWidth: "thin",
+        // fontSize: 16,
+    },
 }));
 function SignUp() {
+    const history = useHistory();
     const { signup, currentUser } = useContext(AuthContext);
     // console.log(currentUser);
     const [Email, setEmail] = useState("");
@@ -116,6 +128,7 @@ function SignUp() {
                 setLoading(false)
             }
             async function fn3() {
+                //on success
                 let downloadUrl = await uploadTaskListener.snapshot.ref.getDownloadURL();//snapshot means any file audio, video, image==> given by firebase
                 console.log(downloadUrl);
                 await database.users.doc(uid).set({
@@ -129,78 +142,110 @@ function SignUp() {
             }
             setLoading(false);
             console.log('User has Signed up');
+            history.push('/')
         } catch (e) {
             setError(e)
             setTimeout(() => setError(''), 2000);
             setLoading(false)
         }
     }
-    const handleFileSubmit=(e)=>{
+    const handleFileSubmit = (e) => {
         let file = e.target.files[0];
         console.log(file);
-        if(file!=null)
-        {
+        if (file != null) {
             setFile(file)
         }
     }
+    useEffect(() => {
+        // /useeffect of type comp did mount
+        //we will check if our AuthProvider observer has any user loged in, 
+        //if yes we will display feeds page else we will show him the SignUp page
+        if(currentUser){
+            history.push('/')   //'/' here means home page i.e. our feeds page 
+         }
+    }, [])
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
     const handleClickShowPassword = () => {
         setPasswordObj({ ...passwordObj, showPassword: !passwordObj.showPassword });
     };
-    const handlePasswordChange=(e)=>{
-        setPasswordObj({...passwordObj, password:e.target.value})
+    const handlePasswordChange = (e) => {
+        setPasswordObj({ ...passwordObj, password: e.target.value })
     }
     return (
-        <div className={classes.SignUpcomp}  
-        style={{backgroundImage:`url(${bpic})`,
-        }}>
-        {error?<h1>{error}</h1>:<div className={classes.signUpcard}>
-            <div className={styles.appName}>RollingStones</div>
-            <p className={classes.message}>A place to share your travel memories</p>
-            <div className={classes.messageLogin}>
-                <span className={classes.messageBody}>Sign Up</span>
+        <div className={classes.SignUpcomp}
+            style={{
+                backgroundImage: `url(${bpic})`,
+            }}>
+            {error ? <h1>{error}</h1> : <div className={classes.signUpcard}>
+                <div className={styles.appName}>RollingStones</div>
+                <p className={classes.message}>A place to share your travel memories</p>
+                <div className={classes.messageLogin}>
+                    <span className={classes.messageBody}>Sign Up</span>
+                </div>
+                <form className={classes.formBlock} noValidate autoComplete="off" onSubmit={handleSignUp}>
+
+                    <TextField id="outlined-basic"
+                        type="text"
+                        placeholder="Enter Your User Name"
+                        variant="outlined" required autoFocus
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                    />
+                    <TextField id="outlined-basic"
+                        type="email"
+                        placeholder="Enter valid Email"
+                        variant="outlined" required
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={Email}
+                    />
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={passwordObj.showPassword ? 'text' : 'password'}
+                        value={passwordObj.password}
+                        onChange={handlePasswordChange}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {passwordObj.showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        placeholder="Password"
+                        variant="outlined" required
+                    />
+                    <input type="file" 
+                    accept='image/*'
+                    onChange={handleFileSubmit}
+                    style={{ display: "none" }}
+                    id='icon-button-file'
+                    ></input> 
+                    <label htmlFor='icon-button-file' style={{alignItems:"center", display:"flex", justifyContent:'center'}}>
+                    <Button
+                        variant="contained"
+                        color="grey"
+                        startIcon={<PhotoCamera/>}
+                        size="small"
+                        disabled={loading}
+                        className={classes.uploadButton}
+                    >
+                        Select Profile Image
+                    </Button>
+                    </label>
+                    <Button variant="contained" color="primary" type="submit" disabled={loading}>
+                        Create Account
+                    </Button>
+                </form>
+                <span style={{marginTop: "1rem"}}><ArrowBackIosIcon style={{fontSize: "large", color: "blue"}}/><Link onClick={history.push("/login")}>Back to Sign In</Link></span>
             </div>
-        <form className={classes.formBlock} noValidate autoComplete="off" onSubmit={handleSignUp}>
-            
-            <TextField id="outlined-basic"
-                type="email"
-                placeholder="Enter Email"
-                variant="outlined" required autoFocus
-                onChange={(e)=>setEmail(e.target.value)}
-                value={Email}
-                />
- 
-            <OutlinedInput
-                id="outlined-adornment-password"
-                type={passwordObj.showPassword ? 'text' : 'password'}
-                value={passwordObj.password}
-                onChange={handlePasswordChange}
-                endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {passwordObj.showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                    </InputAdornment>
-                }
-                placeholder="Password"
-                variant="outlined" required
-                />
-            <Link className={classes.ForgotPassword}>Forgot Password?</Link>
-            <Button variant="contained" color="primary" type="submit" disabled={loading}>
-                Create Account
-            </Button>
-        </form>
-        <p>Don't have an account? <Link>Sign up</Link></p>
+            }
         </div>
-    }
-    </div>
     )
 }
 
