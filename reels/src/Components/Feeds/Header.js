@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { makeStyles, alpha } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,10 +18,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import PeopleIcon from '@material-ui/icons/People';
 import Tooltip from '@material-ui/core/Tooltip';
-import { CloudUpload } from '@material-ui/icons';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Grid } from '@material-ui/core';
-import { mergeClasses } from '@material-ui/styles';
+import Uploadfile from './Uploadfile';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -180,6 +178,33 @@ function Header() {
     </Menu>
   );
 
+  const[loading,setLoading] = useState(false);
+  const[error,setError] = useState(null);
+  const types =['video/mp4','video/webm','video/ogg'];
+  const handleOnChange=(e)=>{
+    const file=e?.target?.files[0];
+    console.log("cliked", file)
+    if(!file){
+      setError('Please select a file');
+      setTimeout(()=>{setError(null)},2000)
+      return;
+    }
+    else if(types.indexOf(file.type)==-1)
+        {
+            setError('Please select a video file');
+            setTimeout(()=>{setError(null)},2000)
+            return;
+        }
+    else if(file.size/(1024*1024)>100)
+    {     //file size must be less than 100mb
+          setError('The selected file is too big');
+          setTimeout(()=>{setError(null)},2000)
+          return;
+    }else{
+      console.log("good work")
+    }
+  }
+
   return (
     <div className={classes.grow}>
       <AppBar position="static" color="default" >
@@ -203,9 +228,20 @@ function Header() {
           {/* <div className={classes.grow} /> */}
           <div className={classes.sectionDesktop}>
             <Tooltip title="Upload Video">
-            <IconButton color="inherit">
-              <PhotoCamera/>
-            </IconButton>
+              <div>
+            <input
+                color="primary"
+                type="file"
+                id='icon-button-file'
+                onChange={handleOnChange}
+                style={{display: "none"}}
+                />
+                <label htmlFor='icon-button-file'>
+                <IconButton  component="span" color="inherit">
+                    <PhotoCamera/>
+                </IconButton>
+                </label>
+                </div>
             </Tooltip>
             <IconButton color="inherit">
               <HomeIcon />

@@ -5,19 +5,20 @@ import SignUp from './Components/SignUp comp/SignUp';
 import Main from "./MaterialUI/Main"
 import SignIN from './Components/SignIN comp/SignIN';
 import Header from './Components/Feeds/Header';
+import Feed from './Components/Feeds/Feed';
+import PrivateRoute from './Components/PrivateRoute';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 function App() {
   return (
-    <Header/>
-    // <Router>
-    //   <AuthProvider>
-    //     <Switch>
-    //       <Route exact path="/signup" component={SignUp} />
-    //       {/* <Route path="/login" component={SignIN} /> */}
-    //     </Switch>
-    //   </AuthProvider>
-    //   {/* <Main/> */}
-    // </Router>
+    <Router>
+      <AuthProvider>
+        <Switch>
+          <PrivateRoute exact path='/' component={Feed}/>
+          <Route path="/login" component={SignIN}/>
+          <Route path='/signup' component={SignUp}/>
+        </Switch>
+      </AuthProvider>
+    </Router>
   );
 }
 

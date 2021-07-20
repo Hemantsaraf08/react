@@ -10,10 +10,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
-import { Link } from '@material-ui/core';
+// import { Link as RouterLink } from 'react-router-dom';
 import bpic from "./signIN_bg.png"
 import { useHistory } from 'react-router-dom';
-// import {Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     formBlock: {
         marginTop: "1.5rem",
@@ -160,7 +160,7 @@ function SignIN() {
                     LOG IN
                 </Button>
             </form>
-            <p>Don't have an account? <Link>Sign up</Link></p>
+            <p>Don't have an account? <Link to="/signup" onClick={(e)=>e.preventDefault} >Sign up</Link></p>
             </div>
         }
         </div>

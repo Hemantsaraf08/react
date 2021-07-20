@@ -18,6 +18,8 @@ const firestore = firebase.firestore();
 export const database ={
     users:firestore.collection('users'),//creating collections here so that our main app doesn't have access to firestore 
     //for safety reasons
+    posts: firestore.collection("posts"),
+    comments: firestore.collection("comments"),
     getCurrentTimeStamp : firebase.firestore.FieldValue.serverTimestamp
 }
 // export default firebase;
