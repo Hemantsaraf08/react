@@ -13,7 +13,9 @@ import Button from '@material-ui/core/Button';
 // import { Link as RouterLink } from 'react-router-dom';
 import bpic from "./signIN_bg.png"
 import { useHistory } from 'react-router-dom';
-import {Link} from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import SignUp from '../SignUp_comp/SignUp';
 const useStyles = makeStyles((theme) => ({
     formBlock: {
         marginTop: "1.5rem",
@@ -160,7 +162,7 @@ function SignIN() {
                     LOG IN
                 </Button>
             </form>
-            <p>Don't have an account? <Link to="/signup" onClick={(e)=>e.preventDefault} >Sign up</Link></p>
+            <p>Don't have an account? <Link component={RouterLink} to="/signup">Sign up</Link></p>
             </div>
         }
         </div>
