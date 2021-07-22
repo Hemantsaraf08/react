@@ -16,6 +16,8 @@ import Video from './Video';
 import { database } from "../../firebase"
 import './Posts.css'
 import Likes from './Likes';
+import Comments from './Comments';
+import Addcomments from './Addcomments';
 const useStyles = makeStyles({
     root: {
         width: '100%',
@@ -58,11 +60,12 @@ const useStyles = makeStyles({
         color: 'white'
     }
 });
-function Posts({userData=null}) {
+function Posts({ userData = null }) {
     const classes = useStyles();
     const [posts, setPosts] = useState(null);
     const [openId, setOpenId] = useState(null);
     const handleClickOpen = (id) => {
+        console.log("post id is", id)
         setOpenId(id);
     }
     const handleClose = () => {
@@ -132,14 +135,53 @@ function Posts({userData=null}) {
                                         <div className='fa' style={{ display: 'flex' }}>
                                             <Avatar src={post.uProfile}></Avatar>
                                             <h4>{post.uName}</h4>
+                                        </div>
                                     </div>
-                                    <Likes userData={userData} userPostData={post}/>
-                                    </div>
+                                    <Likes userData={userData} userPostData={post} />
+                                    <ChatBubbleIcon onClick={() => handleClickOpen(post.pId)} className={`${classes.ci} icon-styling`} />
+                                    <Dialog maxWidth="md" onClose={handleClose} aria-labelledby="customized-dialog-title" open={openId === post.pId}>
+                                        <MuiDialogContent>
+                                            <div className='dcontainer'>
+                                                <div className='video-part'>
+                                                    <video autoPlay={true} className='video-styles2' controls id={post.id} muted="muted" type="video/mp4" >
+                                                        <source src={post.pUrl} type="video/webm" />
+                                                    </video>
+                                                </div>
+                                                <div className='info-part'>
+                                                    <Card>
+                                                        <CardHeader
+                                                            avatar={
+                                                                <Avatar src={post?.uProfile} aria-label="recipe" className={classes.avatar}>
+                                                                </Avatar>
+                                                            }
+                                                            action={
+                                                                <IconButton aria-label="settings">
+                                                                    <MoreVertIcon />
+                                                                </IconButton>
+                                                            }
+                                                            title={post?.uName}
+
+                                                        />
+                                                        <hr style={{ border: "none", height: "1px", color: "#dfe6e9", backgroundColor: "#dfe6e9" }} />
+                                                        <CardContent className={classes.seeComments}>
+                                                            <Comments userData={userData} userPostData={post} />
+                                                        </CardContent>
+                                                    </Card>
+                                                    <div className='extra'>
+                                                        <div className='likes'>
+                                                            <Typography className={classes.typo} variant='body2'>Liked By {post.likes.length == 0 ? 'nobody' : ` others`}</Typography>
+                                                        </div>
+                                                        <Addcomments userData={userData} postData={post} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </MuiDialogContent>
+                                    </Dialog>
                                 </React.Fragment>
-                                    ))
-                    }
-                </div>
-            }    
+                            ))
+                        }
+                    </div>
+            }
         </>
     )
 }

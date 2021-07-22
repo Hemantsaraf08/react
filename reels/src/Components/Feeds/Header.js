@@ -16,7 +16,6 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import PeopleIcon from '@material-ui/icons/People';
 import Tooltip from '@material-ui/core/Tooltip';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Uploadfile from './Uploadfile';
 import { v4 as uuidv4 } from 'uuid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { storage, database } from '../../firebase'

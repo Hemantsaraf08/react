@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import {database} from '../../firebase'
 const useStyles = makeStyles({
     like:{
         color:'#e74c3c',
         cursor:'pointer',
-        fill: "red",
+        // fill: "red",
         // fontSize: "large"
     },
     unlike:{
@@ -45,8 +44,8 @@ function Likes({userData=null, userPostData=null}) {
         {
             like!=null?<>
             {
-                like==false?<FavoriteBorderOutlinedIcon className={`${classes.unlike} icon-styling`} onClick={handleLike}/>:
-                <FavoriteTwoToneIcon className={`${classes.like} icon-styling`} onClick={handleLike} />
+                like==false?<FavoriteIcon className={`${classes.unlike} icon-styling`} onClick={handleLike}/>:
+                <FavoriteIcon className={`${classes.like} icon-styling`} onClick={handleLike} />
             }
             </>:<></>
         }
