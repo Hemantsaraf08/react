@@ -128,7 +128,9 @@ function Posts({ userData = null }) {
                 posts == null ? <CircularProgress className={classes.loader} color="secondary" /> :
                     <div className='video-container' id='video-container'>
                         {
-                            posts.map((post) => (
+                            posts.map((post) =>{
+                                console.log(post)
+                            return (
                                 <React.Fragment key={post.postId}>
                                     <div className='videos'>
                                         <Video source={post.pUrl} id={post.pId} />
@@ -178,7 +180,8 @@ function Posts({ userData = null }) {
                                         </MuiDialogContent>
                                     </Dialog>
                                 </React.Fragment>
-                            ))
+                            )}
+                            )
                         }
                     </div>
             }
