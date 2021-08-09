@@ -1,0 +1,28 @@
+what are pure functions?
+--> 2 requirements
+1. give same output each time for same input
+2. dont produce any side effect i.e. don't produce any changes outside their scope
+
+Side effect occurs anytime our functions interact with the outside world
+
+Examples of side effect include
+1. Making an API call
+2. Mutating data
+3. console logs to the screen
+4. Manipulating the DOM
+5. Date.now() to get current date/time
+6. async await calls/waiting for promises to resolve
+7. math.random() to generate random numbers
+
+Benefits of Pure functions: 
+1. Easy to test
+2. Easy to debug
+3. Memoization (by cacheing) is possible 
+
+The most important feature of redux reducers is that, they are Pure Functions.
+
+Reducers are pure functions that take in a state and action and return a new state.
+
+function(state, action) => newState
+
+Since Redux-Reducers are pure function we use thunk to perform API Calls/ network fetch effect
