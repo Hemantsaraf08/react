@@ -246,7 +246,7 @@ function SignUp() {
                         Create Account
                     </Button>
                 </form>
-                <span style={{marginTop: "1rem"}}><ArrowBackIosIcon style={{fontSize: "large", color: "blue"}}/><Link component={RouterLink} to="/login">Back to Sign In</Link></span>
+                <span style={{marginTop: "1rem"}}><ArrowBackIosIcon style={{fontSize: "large", color: "blue"}}/><Link component={RouterLink} to="/login">Sign In</Link></span>
             </div>
             }
         </div>

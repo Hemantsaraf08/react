@@ -105,7 +105,7 @@ function SignIN() {
             setLoading(false);
             history.push("./")
             console.log('User has Signed IN');
-        }catch(error){
+        }catch(e){
             setError(e)
             setTimeout(() => setError(''), 2000);
             setLoading(false)
@@ -135,6 +135,7 @@ function SignIN() {
                     variant="outlined" required autoFocus
                     onChange={(e)=>setEmail(e.target.value)}
                     value={email}
+                    required
                     />
      
                 <OutlinedInput
