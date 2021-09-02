@@ -6,6 +6,7 @@
 }
 .videos{
     /* position: relative; */
+    display: block;
 }
 video{
     position: relative;

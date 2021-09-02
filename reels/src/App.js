@@ -8,6 +8,7 @@ import Header from './Components/Feeds/Header';
 import Feed from './Components/Feeds/Feed';
 import PrivateRoute from './Components/PrivateRoute';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import otherProfile from './Components/otherProfile';
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
           <PrivateRoute exact path='/' component={Feed}/>
           <Route path="/login" component={SignIN}/>
           <Route path='/signup' component={SignUp}/>
+          <Route path="/otherUserProfile" component={otherProfile}/>
         </Switch>
       </AuthProvider>
     </Router>

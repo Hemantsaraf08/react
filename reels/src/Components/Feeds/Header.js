@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -20,6 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { storage, database } from '../../firebase'
 import Alert from '@material-ui/lab/Alert';
+import Search from './Search'
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -98,6 +98,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header(props) {
+  console.log(props.otherUsers)
+  console.log(props.userDocumentData)
+  // const {userDocumentData, otherUsers}=props
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -269,7 +272,8 @@ function Header(props) {
           <Typography className={classes.title} noWrap>
             RollingStones
           </Typography>
-          <div className={classes.search}>
+          <Search oUsers={props.otherUsers}/>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -281,7 +285,7 @@ function Header(props) {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           {/* <div className={classes.grow} /> */}
           <div className={classes.sectionDesktop}>
             <Tooltip title="Upload Video">
